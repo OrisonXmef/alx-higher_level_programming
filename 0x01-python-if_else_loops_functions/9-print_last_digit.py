@@ -5,11 +5,13 @@ def print_last_digit(number):
     print(last_digit, end='')
     return last_digit
 
+
 def main():
     print_last_digit(98)
     print_last_digit(0)
     r = print_last_digit(-1024)
     print(r)
+
 
 if __name__ == "__main__":
     main()
