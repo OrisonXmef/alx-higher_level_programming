@@ -7,8 +7,7 @@ def uppercase(s):
             print(uppercase_char, end='')
         else:
             print(char, end='')
-    print()
-
+   
 def main():
     uppercase("best")
     uppercase("Best School 98 Battery street")
