@@ -11,7 +11,7 @@ def fizzbuzz():
         else:
             print(i, end=" ")
 
+
 if __name__ == "__main__":
     fizzbuzz = __import__('12-fizzbuzz').fizzbuzz
     fizzbuzz()
-
