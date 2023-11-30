@@ -1,3 +1,7 @@
 #!/usr/bin/python3
 
-print(''.join(chr(i) for i in range(ord('z'), ord('a') - 1, -1) if i % 2 == 0), end='')
+for i in range(90, 64, -1):
+    print("{:c}".format(i), end="")
+    print("{:c}".format(i + 32), end="")
+
+print()
