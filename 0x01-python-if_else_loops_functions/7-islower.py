@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 def islower(c):
     # Check if the ASCII value of the character is between 'a' and 'z'
     return ord('a') <= ord(c) <= ord('z')
