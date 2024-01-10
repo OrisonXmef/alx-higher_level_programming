@@ -124,4 +124,3 @@ lazy_matrix_mul() missing 1 required positional argument: 'm_b'
 ... except Exception as te:
 ...	print(te)
 lazy_matrix_mul() missing 2 required positional arguments: 'm_a' and 'm_b'
-
