@@ -1,6 +1,6 @@
 #!/usr/bin/node
 
-const request = require('request');
+const axios = require('axios');
 
 const movieId = process.argv[2];
 
@@ -11,37 +11,29 @@ if (!movieId) {
 
 const apiUrl = `https://swapi.dev/api/films/${movieId}/`;
 
-// Bypass SSL verification
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
-
-request(apiUrl, (error, response, body) => {
-  if (error) {
-    console.error('Error:', error);
-    process.exit(1);
+const fetchCharacterNames = async (characterUrls) => {
+  const characterNames = [];
+  for (const characterUrl of characterUrls) {
+    try {
+      const response = await axios.get(characterUrl, { httpsAgent: new (require('https').Agent)({ rejectUnauthorized: false }) });
+      characterNames.push(response.data.name);
+    } catch (error) {
+      console.error('Error fetching character:', error.message);
+      process.exit(1);
+    }
   }
+  return characterNames;
+};
 
-  if (response.statusCode !== 200) {
-    console.error('Failed to fetch movie details.');
+axios.get(apiUrl)
+  .then(response => {
+    const characters = response.data.characters;
+    return fetchCharacterNames(characters);
+  })
+  .then(characterNames => {
+    characterNames.forEach(name => console.log(name));
+  })
+  .catch(error => {
+    console.error('Failed to fetch movie details:', error.message);
     process.exit(1);
-  }
-
-  const movieData = JSON.parse(body);
-  const characters = movieData.characters;
-
-  characters.forEach((characterUrl) => {
-    request(characterUrl, (charError, charResponse, charBody) => {
-      if (charError) {
-        console.error('Error fetching character:', charError);
-        process.exit(1);
-      }
-
-      if (charResponse.statusCode !== 200) {
-        console.error('Failed to fetch character details.');
-        process.exit(1);
-      }
-
-      const characterData = JSON.parse(charBody);
-      console.log(characterData.name);
-    });
   });
-});
